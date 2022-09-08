@@ -18,4 +18,12 @@ public interface Service {
 
     void removeAll();
 
+    List<Employee> getAllByName(String name);
+
+    List<Employee> getAllByIsFullTrue();
+
+    Employee generatePassword(int id);
+
+    Employee updatePasswordById(Employee employee);
+
 }

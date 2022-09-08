@@ -58,4 +58,53 @@ public class Controller {
     public void removeAllUsers() {
         service.removeAll();
     }
+
+    /**
+     * This function returns a list of employees whose name matches the name parameter
+     *
+     * @param name The name of the parameter in the request.
+     * @return A list of employees with the name specified in the request parameter.
+     */
+    @GetMapping(value = "/users", params = {"name"})
+    @ResponseStatus(HttpStatus.OK)
+    public List<Employee> getAllByName(@RequestParam(value = "name") String name) {
+        return service.getAllByName(name);
+    }
+
+    /**
+     * This function returns a list of all employees who are full time
+     *
+     * @return A list of all employees who are full time.
+     */
+    @GetMapping(value = "/users", params = {"isFull"})
+    @ResponseStatus(HttpStatus.OK)
+    public List<Employee> getAllByIsFullTrue() {
+        return service.getAllByIsFullTrue();
+    }
+
+    /**
+     * This function will generate a random password for the user with the given id
+     *
+     * @param id The id of the employee whose password is to be reset.
+     * @return Employee
+     */
+    @PutMapping(value = "/users/password", params = {"id"})
+    @ResponseStatus(HttpStatus.OK)
+    public Employee generateRandomPassword(@RequestParam(value = "id") int id) {
+        return service.generatePassword(id);
+    }
+
+    /**
+     * This function updates the password of the employee with the given id
+     *
+     * @param employee The employee object that is passed in the request body.
+     * @return The employee object is being returned.
+     */
+    @PatchMapping("/users/password")
+    @ResponseStatus(HttpStatus.OK)
+    public Employee updatePassword(@RequestBody Employee employee) {
+        return service.updatePasswordById(employee);
+    }
+
+
 }

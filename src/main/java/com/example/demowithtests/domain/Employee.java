@@ -16,11 +16,11 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String name;
     private String country;
     private String email;
     private Boolean isFull;
     private Boolean isUpdated;
+    private String password;
 
 }
