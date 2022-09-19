@@ -2,7 +2,6 @@ package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.repository.Repository;
-import com.example.demowithtests.util.PasswordGenerator;
 import com.example.demowithtests.util.ResourceNotFoundException;
 import com.example.demowithtests.util.ResourceWasDeletedException;
 import lombok.AllArgsConstructor;
@@ -21,7 +20,8 @@ public class ServiceBean implements Service {
     @Override
     public Employee create(Employee employee) {
         employee.setIsFull(employee.getCountry() != null && employee.getName() != null && employee.getEmail() != null);
-        return repository.save(employee);
+        repository.save(employee);
+        return employee;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ServiceBean implements Service {
     @Override
     public Employee getById(Integer id) {
         return repository.findById(id)
-                .orElseThrow(ResourceNotFoundException::new);
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ServiceBean implements Service {
      * @param name The name of the method.
      * @return A list of employees with the name specified.
      */
-    public List<Employee> getAllByName(String name) {
+    public List<Employee> getListAllByName(String name) {
         return repository.getAllByName(name);
     }
 

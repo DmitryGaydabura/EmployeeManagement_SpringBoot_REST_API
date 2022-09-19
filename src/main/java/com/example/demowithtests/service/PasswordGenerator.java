@@ -1,4 +1,4 @@
-package com.example.demowithtests.util;
+package com.example.demowithtests.service;
 
 import java.util.stream.IntStream;
 

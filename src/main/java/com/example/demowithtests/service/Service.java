@@ -18,7 +18,7 @@ public interface Service {
 
     void removeAll();
 
-    List<Employee> getAllByName(String name);
+    List<Employee> getListAllByName(String name);
 
     List<Employee> getAllByIsFullTrue();
 
