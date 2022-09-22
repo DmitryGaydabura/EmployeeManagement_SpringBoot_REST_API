@@ -1,8 +1,6 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
-import com.example.demowithtests.dto.EmployeeReadAllByIsFullDto;
-import com.example.demowithtests.dto.EmployeeReadAllByNameDto;
 
 import java.util.List;
 
@@ -83,20 +81,5 @@ public interface Service {
      */
     Employee updatePasswordById(Employee employee);
 
-    /**
-     * Convert a list of Employee objects to a list of EmployeeReadAllByNameDto objects.
-     *
-     * @param list The list of Employee objects to be converted to EmployeeReadAllByNameDto objects.
-     * @return List<EmployeeReadAllByNameDto>
-     */
-    List<EmployeeReadAllByNameDto> employeeListToReadAllByNameDto(List<Employee> list);
-
-    /**
-     * Convert a list of Employee objects to a list of EmployeeReadAllByIsFullDto objects
-     *
-     * @param list The list of Employee objects to be converted.
-     * @return List<EmployeeReadAllByIsFullDto>
-     */
-    List<EmployeeReadAllByIsFullDto> employeeListToReadAllByIsFullDto(List<Employee> list);
 
 }

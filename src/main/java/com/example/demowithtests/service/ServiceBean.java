@@ -1,16 +1,12 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
-import com.example.demowithtests.dto.EmployeeReadAllByIsFullDto;
-import com.example.demowithtests.dto.EmployeeReadAllByNameDto;
 import com.example.demowithtests.repository.Repository;
-import com.example.demowithtests.util.config.EmployeeConverter;
 import com.example.demowithtests.util.exceptions.ResourceWasDeletedException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -19,7 +15,6 @@ import java.util.List;
 public class ServiceBean implements Service {
 
     private final Repository repository;
-    private final EmployeeConverter converter;
 
     /**
      * > The function creates an employee and sets the isFull property to true if the employee has a country, name, and
@@ -147,34 +142,7 @@ public class ServiceBean implements Service {
         repository.save(updatedEmployee);
         return updatedEmployee;
     }
-    /**
-     * It converts a list of employees to a list of employeeReadAllByNameDto.
-     *
-     * @param list The list of entities to be converted.
-     * @return A list of EmployeeReadAllByNameDto objects.
-     */
-    @Override
-    public List<EmployeeReadAllByNameDto> employeeListToReadAllByNameDto(List<Employee> list) {
-        List<EmployeeReadAllByNameDto> dtoList = new ArrayList<>();
-        for (Employee employee : list) {
-            dtoList.add(converter.toReadAllByNameDto(employee));
-        }
-        return dtoList;
-    }
 
-    /**
-     * It converts a list of employees to a list of employeeReadAllByIsFullDto objects.
-     *
-     * @param list the list of entities to be converted
-     * @return A list of EmployeeReadAllByIsFullDto objects.
-     */
-    @Override
-    public List<EmployeeReadAllByIsFullDto> employeeListToReadAllByIsFullDto(List<Employee> list) {
-        List<EmployeeReadAllByIsFullDto> dtoList = new ArrayList<>();
-        for (Employee employee : list) {
-            dtoList.add(converter.toReadAllByIsFullDto(employee));
-        }
-        return dtoList;
-    }
+
 
 }

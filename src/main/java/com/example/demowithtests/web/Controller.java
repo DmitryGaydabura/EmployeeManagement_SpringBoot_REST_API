@@ -1,9 +1,7 @@
 package com.example.demowithtests.web;
 
 import com.example.demowithtests.domain.Employee;
-import com.example.demowithtests.dto.*;
 import com.example.demowithtests.service.Service;
-import com.example.demowithtests.util.config.EmployeeConverter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -25,9 +23,7 @@ import java.util.List;
 public class Controller {
 
     private final Service service;
-
-    private final EmployeeConverter converter;
-
+    
     //Операция сохранения юзера в базу данных
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,12 +33,8 @@ public class Controller {
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
             @ApiResponse(responseCode = "409", description = "Employee already exists")})
-    public EmployeeDto saveEmployee(@RequestBody @Valid EmployeeDto requestForSave) {
-
-        var employee = converter.getMapperFacade().map(requestForSave, Employee.class);
-        var dto = converter.toDto(service.create(employee));
-
-        return dto;
+    public Employee saveEmployee(@RequestBody @Valid Employee requestForSave) {
+        return service.create(requestForSave);
     }
 
     //Получение списка юзеров
@@ -62,13 +54,11 @@ public class Controller {
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
             @ApiResponse(responseCode = "409", description = "Employee already exists")})
-    public EmployeeReadDto getEmployeeById(@PathVariable Integer id) {
+    public Employee getEmployeeById(@PathVariable Integer id) {
         log.debug("getEmployeeById() Controller - start: id = {}", id);
         var employee = service.getById(id);
         log.debug("getById() Controller - to dto start: id = {}", id);
-        var dto = converter.toReadDto(employee);
-        log.debug("getEmployeeById() Controller - end: name = {}", dto.name);
-        return dto;
+        return employee;
     }
 
     //Обновление юзера
@@ -80,10 +70,9 @@ public class Controller {
             @ApiResponse(responseCode = "409", description = "Employee already exists")})
     @Operation(summary = "This is endpoint to update employee by ID.", description = "Update (Name,Country,Email only!) by ID", tags = {"Employee"})
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public EmployeeUpdateDto refreshEmployee(@PathVariable("id") Integer id, @RequestBody Employee employee) {
-        var dto = converter.toUpdateDto(employee);
+    public Employee refreshEmployee(@PathVariable("id") Integer id, @RequestBody Employee employee) {
         service.updateById(id,employee);
-        return dto;
+        return employee;
     }
 
     //Удаление по id
@@ -117,9 +106,9 @@ public class Controller {
             @ApiResponse(responseCode = "409", description = "Employee already exists")})
     @Operation(summary = "This is endpoint to read all employees by name.", description = "Create request to get all employees by name.", tags = {"Employee"})
     @ResponseStatus(HttpStatus.OK)
-    public List<EmployeeReadAllByNameDto> getAllByName(@RequestParam(value = "name") String name) {
+    public List<Employee> getAllByName(@RequestParam(value = "name") String name) {
         List<Employee> list = service.getListAllByName(name);
-        return service.employeeListToReadAllByNameDto(list);
+        return list;
     }
 
     /**
@@ -135,8 +124,8 @@ public class Controller {
             @ApiResponse(responseCode = "409", description = "Employee already exists")})
     @Operation(summary = "This is endpoint to get all employees by value isFull.", description = "Create request to get all employees by isFull.", tags = {"Employee"})
     @ResponseStatus(HttpStatus.OK)
-    public List<EmployeeReadAllByIsFullDto> getAllByIsFullTrue() {
-        return service.employeeListToReadAllByIsFullDto(service.getAllByIsFullTrue());
+    public List<Employee> getAllByIsFullTrue() {
+        return service.getAllByIsFullTrue();
     }
 
     /**
