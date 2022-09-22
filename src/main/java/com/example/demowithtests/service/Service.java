@@ -1,6 +1,9 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
+import com.example.demowithtests.dto.EmployeeCreateDto;
+import com.example.demowithtests.dto.EmployeeReadDto;
+import com.example.demowithtests.dto.EmployeeUpdateDto;
 
 import java.util.List;
 
@@ -12,7 +15,7 @@ public interface Service {
      * @param employee The employee object to be created.
      * @return The employee object that was created.
      */
-    Employee create(Employee employee);
+    EmployeeCreateDto create(Employee employee);
 
     /**
      * Get all employees.
@@ -27,16 +30,16 @@ public interface Service {
      * @param id The id of the employee to be retrieved.
      * @return Employee
      */
-    Employee getById(Integer id);
+    EmployeeReadDto getById(Integer id);
 
     /**
      * Update an employee by id.
      *
-     * @param id The id of the employee you want to update.
+     * @param id    The id of the employee you want to update.
      * @param plane The object that will be updated in the database.
      * @return Employee
      */
-    Employee updateById(Integer id, Employee plane);
+    EmployeeUpdateDto updateById(Integer id, Employee plane);
 
     /**
      * Removes the entity with the given id.

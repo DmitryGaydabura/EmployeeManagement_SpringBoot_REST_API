@@ -6,11 +6,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Employee {
 
     // This is a JPA annotation. It is used to map the class to a table in the database.

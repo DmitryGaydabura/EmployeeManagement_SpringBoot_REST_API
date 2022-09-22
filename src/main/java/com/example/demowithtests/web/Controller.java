@@ -1,6 +1,9 @@
 package com.example.demowithtests.web;
 
 import com.example.demowithtests.domain.Employee;
+import com.example.demowithtests.dto.EmployeeCreateDto;
+import com.example.demowithtests.dto.EmployeeReadDto;
+import com.example.demowithtests.dto.EmployeeUpdateDto;
 import com.example.demowithtests.service.Service;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,7 +26,7 @@ import java.util.List;
 public class Controller {
 
     private final Service service;
-    
+
     //Операция сохранения юзера в базу данных
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
@@ -33,7 +36,7 @@ public class Controller {
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
             @ApiResponse(responseCode = "409", description = "Employee already exists")})
-    public Employee saveEmployee(@RequestBody @Valid Employee requestForSave) {
+    public EmployeeCreateDto saveEmployee(@RequestBody @Valid Employee requestForSave) {
         return service.create(requestForSave);
     }
 
@@ -54,11 +57,9 @@ public class Controller {
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
             @ApiResponse(responseCode = "409", description = "Employee already exists")})
-    public Employee getEmployeeById(@PathVariable Integer id) {
-        log.debug("getEmployeeById() Controller - start: id = {}", id);
-        var employee = service.getById(id);
-        log.debug("getById() Controller - to dto start: id = {}", id);
-        return employee;
+    public EmployeeReadDto getEmployeeById(@PathVariable Integer id) {
+
+        return service.getById(id);
     }
 
     //Обновление юзера
@@ -70,9 +71,8 @@ public class Controller {
             @ApiResponse(responseCode = "409", description = "Employee already exists")})
     @Operation(summary = "This is endpoint to update employee by ID.", description = "Update (Name,Country,Email only!) by ID", tags = {"Employee"})
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Employee refreshEmployee(@PathVariable("id") Integer id, @RequestBody Employee employee) {
-        service.updateById(id,employee);
-        return employee;
+    public EmployeeUpdateDto refreshEmployee(@PathVariable("id") Integer id, @RequestBody Employee employee) {
+        return service.updateById(id,employee);
     }
 
     //Удаление по id

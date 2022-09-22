@@ -1,10 +1,15 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
+import com.example.demowithtests.dto.EmployeeCreateDto;
+import com.example.demowithtests.dto.EmployeeReadDto;
+import com.example.demowithtests.dto.EmployeeUpdateDto;
 import com.example.demowithtests.repository.Repository;
+import com.example.demowithtests.util.config.mapstruct.EmployeeToDtoMapper;
 import com.example.demowithtests.util.exceptions.ResourceWasDeletedException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.mapstruct.factory.Mappers;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -15,6 +20,8 @@ import java.util.List;
 public class ServiceBean implements Service {
 
     private final Repository repository;
+    private EmployeeToDtoMapper mapper
+            = Mappers.getMapper(EmployeeToDtoMapper.class);
 
     /**
      * > The function creates an employee and sets the isFull property to true if the employee has a country, name, and
@@ -24,10 +31,10 @@ public class ServiceBean implements Service {
      * @return The employee object is being returned.
      */
     @Override
-    public Employee create(Employee employee) {
+    public EmployeeCreateDto create(Employee employee) {
         employee.setIsFull(employee.getCountry() != null && employee.getName() != null && employee.getEmail() != null);
-        repository.save(employee);
-        return employee;
+
+        return mapper.employeeToCreateDto(repository.save(employee));
     }
 
     /**
@@ -47,21 +54,21 @@ public class ServiceBean implements Service {
      * @return An Employee object
      */
     @Override
-    public Employee getById(Integer id) {
-        return repository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+    public EmployeeReadDto getById(Integer id) {
+        return mapper.employeeToReadDto(repository.findById(id)
+                .orElseThrow(EntityNotFoundException::new));
     }
 
     /**
      * If the employee exists, update the employee with the new values and return the updated employee
      *
-     * @param id The id of the employee to update.
+     * @param id       The id of the employee to update.
      * @param employee The employee object that contains the new values for the employee.
      * @return The employee object is being returned.
      */
     @Override
-    public Employee updateById(Integer id, Employee employee) {
-        return repository.findById(id)
+    public EmployeeUpdateDto updateById(Integer id, Employee employee) {
+        return mapper.employeeToUpdateDto(repository.findById(id)
                 .map(entity -> {
                     entity.setName(employee.getName());
                     entity.setEmail(employee.getEmail());
@@ -69,7 +76,7 @@ public class ServiceBean implements Service {
                     entity.setIsUpdated(true);
                     return repository.save(entity);
                 })
-                .orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id)));
     }
 
     /**
@@ -120,7 +127,7 @@ public class ServiceBean implements Service {
      */
     @Override
     public Employee generatePassword(int id) {
-        Employee employee = repository.findById(id).orElseThrow();
+        Employee employee = repository.getById(id);
         String p = PasswordGenerator.generate();
         employee.setPassword(p);
         repository.save(employee);
@@ -137,7 +144,7 @@ public class ServiceBean implements Service {
     public Employee updatePasswordById(Employee employee) {
         Integer id = employee.getId();
         String password = employee.getPassword();
-        Employee updatedEmployee = repository.findById(id).orElseThrow();
+        Employee updatedEmployee = repository.getById(id);
         updatedEmployee.setPassword(password);
         repository.save(updatedEmployee);
         return updatedEmployee;
