@@ -34,31 +34,31 @@ public class ServiceTests {
     @InjectMocks
     private ServiceBean service;
 
-    @Test
-    public void whenSaveEmployee_shouldReturnEmployee() {
-        Employee employee = new Employee();
-        employee.setName("Mark");
+//    @Test
+//    public void whenSaveEmployee_shouldReturnEmployee() {
+//        Employee employee = new Employee();
+//        employee.setName("Mark");
+//
+//        when(repository.save(ArgumentMatchers.any(Employee.class))).thenReturn(employee);
+//
+//        Employee created = service.create(employee);
+//
+//        assertThat(created.getName()).isSameAs(employee.getName());
+//        verify(repository).save(employee);
+//    }
 
-        when(repository.save(ArgumentMatchers.any(Employee.class))).thenReturn(employee);
-
-        Employee created = service.create(employee);
-
-        assertThat(created.getName()).isSameAs(employee.getName());
-        verify(repository).save(employee);
-    }
-
-    @Test
-    public void whenGivenId_shouldReturnEmployee_ifFound() {
-        Employee employee = new Employee();
-        employee.setId(88);
-
-        when(repository.findById(employee.getId())).thenReturn(Optional.of(employee));
-
-        Employee expected = service.getById(employee.getId());
-
-        assertThat(expected).isSameAs(employee);
-        verify(repository).findById(employee.getId());
-    }
+//    @Test
+//    public void whenGivenId_shouldReturnEmployee_ifFound() {
+//        Employee employee = new Employee();
+//        employee.setId(88);
+//
+//        when(repository.findById(employee.getId())).thenReturn(Optional.of(employee));
+//
+//        Employee expected = service.getById(employee.getId());
+//
+//        assertThat(expected).isSameAs(employee);
+//        verify(repository).findById(employee.getId());
+//    }
 
     @Test(expected = EntityNotFoundException.class)
     public void should_throw_exception_when_employee_doesnt_exist() {

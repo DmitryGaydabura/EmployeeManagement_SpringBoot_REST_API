@@ -10,6 +10,12 @@ import java.util.List;
 //@Component
 public interface Repository extends JpaRepository<Employee, Integer> {
 
+    /**
+     * Find an employee by name.
+     *
+     * @param name The name of the method.
+     * @return Employee
+     */
     Employee findByName(String name);
 
     // query below is doing the same effect
@@ -25,7 +31,6 @@ public interface Repository extends JpaRepository<Employee, Integer> {
 
     // The query below is redundant, because Spring Data "getAllByIsFullTrue"
     // is doing the same effect
-
     /**
      * This function returns a list of all employees who are fully described in DB
      */
