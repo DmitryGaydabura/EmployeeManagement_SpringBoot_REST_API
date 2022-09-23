@@ -36,6 +36,6 @@ public interface Repository extends JpaRepository<Employee, Integer> {
      */
     @Query(value = "Select * From users Where is_full = true", nativeQuery = true)
     List<Employee> getAllByIsFullTrue();
-
-
+    @Query(value = "Select * From users", nativeQuery = true)
+    List<Employee> getAll();
 }

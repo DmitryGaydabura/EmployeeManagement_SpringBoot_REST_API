@@ -22,7 +22,7 @@ public interface Service {
      *
      * @return A list of all the employees in the database.
      */
-    List<Employee> getAll();
+    List<Employee> getAllEmployees();
 
     /**
      * Get an employee by id.

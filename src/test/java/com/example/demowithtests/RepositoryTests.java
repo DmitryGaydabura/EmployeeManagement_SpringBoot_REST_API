@@ -37,7 +37,7 @@ public class RepositoryTests {
     @Order(2)
     public void getEmployeeTest() {
 
-        Employee employee = repository.findById(1).orElseThrow();
+        Employee employee = repository.getById(1);
 
         Assertions.assertThat(employee.getId()).isEqualTo(1);
 
