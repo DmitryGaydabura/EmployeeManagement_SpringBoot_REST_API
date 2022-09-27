@@ -8,6 +8,9 @@ import com.example.demowithtests.service.Service;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +32,11 @@ public class Controller implements ControllerInterface {
     }
 
     @Override
-    public List<Employee> getAllUsers() {
-        return service.getAllEmployees();
+    public Page<Employee> getAllPageable(@RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = "5") int size
+    ) {
+        Pageable paging = PageRequest.of(page, size);
+        return service.getAllWithPagination(paging);
     }
 
     @Override
@@ -54,13 +60,20 @@ public class Controller implements ControllerInterface {
     }
 
     @Override
-    public List<Employee> getAllByName(@RequestParam(value = "name") String name) {
-        return service.getListAllByName(name);
+    public Page<Employee> findByName(@RequestParam(value = "name") String name,
+                                     @RequestParam(defaultValue = "0") int page,
+                                     @RequestParam(defaultValue = "5") int size,
+                                     @RequestParam(defaultValue = "") List<String> sortList,
+                                     @RequestParam(defaultValue = "DESC") String sortOrder
+    ) {
+        return service.findByName(name, page, size, sortList, sortOrder);
     }
 
     @Override
-    public List<Employee> getAllByIsFullTrue() {
-        return service.getAllByIsFullTrue();
+    public Page<Employee> getAllByIsFullTrue(@RequestParam(defaultValue = "0") int page,
+                                             @RequestParam(defaultValue = "5") int size) {
+        Pageable paging = PageRequest.of(page, size);
+        return service.getAllByIsFullTrue(paging);
     }
 
     @Override

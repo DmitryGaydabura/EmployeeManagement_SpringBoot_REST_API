@@ -10,8 +10,13 @@ import com.example.demowithtests.util.exceptions.ResourceWasDeletedException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -19,41 +24,43 @@ import java.util.List;
 @org.springframework.stereotype.Service
 public class ServiceBean implements Service {
 
-    private final Repository repository;
-    private EmployeeToDtoMapper mapper
-            = Mappers.getMapper(EmployeeToDtoMapper.class);
+    private final Repository employeeRepository;
+    private EmployeeToDtoMapper mapper;
 
 
     @Override
     public EmployeeCreateDto create(Employee employee) {
         employee.setIsFull(employee.getCountry() != null && employee.getName() != null && employee.getEmail() != null);
 
-        return mapper.employeeToCreateDto(repository.save(employee));
+        return mapper.employeeToCreateDto(employeeRepository.save(employee));
     }
 
 
     @Override
-    public List<Employee> getAllEmployees() {
-        return repository.getAll();
+    public Page<Employee> getAllWithPagination(Pageable pageable) {
+        log.debug("getAllWithPagination() - start: pageable = {}", pageable);
+        Page<Employee> list = employeeRepository.getAll(pageable);
+        log.debug("getAllWithPagination() - end: list = {}", list);
+        return list;
     }
 
 
     @Override
     public EmployeeReadDto getById(Integer id) {
-        return mapper.employeeToReadDto(repository.findById(id)
+        return mapper.employeeToReadDto(employeeRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new));
     }
 
 
     @Override
     public EmployeeUpdateDto updateById(Integer id, Employee employee) {
-        return mapper.employeeToUpdateDto(repository.findById(id)
+        return mapper.employeeToUpdateDto(employeeRepository.findById(id)
                 .map(entity -> {
                     entity.setName(employee.getName());
                     entity.setEmail(employee.getEmail());
                     entity.setCountry(employee.getCountry());
                     entity.setIsUpdated(true);
-                    return repository.save(entity);
+                    return employeeRepository.save(entity);
                 })
                 .orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id)));
     }
@@ -61,35 +68,36 @@ public class ServiceBean implements Service {
 
     @Override
     public void removeById(Integer id) {
-        Employee employee = repository.findById(id)
+        Employee employee = employeeRepository.findById(id)
                 .orElseThrow(ResourceWasDeletedException::new);
-        repository.delete(employee);
+        employeeRepository.delete(employee);
     }
 
 
     @Override
     public void removeAll() {
-        repository.deleteAll();
+        employeeRepository.deleteAll();
 
     }
 
 
-    public List<Employee> getListAllByName(String name) {
-        return repository.getAllByName(name);
+    public Page<Employee> findByName(String name, int page, int size, List<String> sortList, String sortOrder) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
+        return employeeRepository.findByName(name, pageable);
     }
 
 
-    public List<Employee> getAllByIsFullTrue() {
-        return repository.getAllByIsFullTrue();
+    public Page<Employee> getAllByIsFullTrue(Pageable paging) {
+        return employeeRepository.getAllByIsFullTrue(paging);
     }
 
 
     @Override
     public Employee generatePassword(int id) {
-        Employee employee = repository.getById(id);
+        Employee employee = employeeRepository.getById(id);
         String p = PasswordGenerator.generate();
         employee.setPassword(p);
-        repository.save(employee);
+        employeeRepository.save(employee);
         return employee;
     }
 
@@ -98,10 +106,25 @@ public class ServiceBean implements Service {
     public Employee updatePasswordById(Employee employee) {
         Integer id = employee.getId();
         String password = employee.getPassword();
-        Employee updatedEmployee = repository.getById(id);
+        Employee updatedEmployee = employeeRepository.getById(id);
         updatedEmployee.setPassword(password);
-        repository.save(updatedEmployee);
+        employeeRepository.save(updatedEmployee);
         return updatedEmployee;
+    }
+
+
+    private List<Sort.Order> createSortOrder(List<String> sortList, String sortDirection) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        Sort.Direction direction;
+        for (String sort : sortList) {
+            if (sortDirection != null) {
+                direction = Sort.Direction.fromString(sortDirection);
+            } else {
+                direction = Sort.Direction.DESC;
+            }
+            sorts.add(new Sort.Order(direction, sort));
+        }
+        return sorts;
     }
 
 

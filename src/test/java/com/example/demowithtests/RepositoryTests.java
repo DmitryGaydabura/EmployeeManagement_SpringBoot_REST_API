@@ -67,47 +67,47 @@ public class RepositoryTests {
 
     }
 
-    @Test
-    @Order(5)
-    @Rollback(value = false)
-    public void deleteEmployeeTest() {
+//    @Test
+//    @Order(5)
+//    @Rollback(value = false)
+//    public void deleteEmployeeTest() {
+//
+//        Employee employee = repository.findById(1).get();
+//
+//        repository.delete(employee);
+//
+//        //repository.deleteById(1L);
+//
+//        Employee employee1 = null;
+//
+//        Optional<Employee> optionalAuthor = (Optional<Employee>) Optional.ofNullable(repository.findByName("Martin"));
+//
+//        if (optionalAuthor.isPresent()) {
+//            employee1 = optionalAuthor.get();
+//        }
+//
+//        Assertions.assertThat(employee1).isNull();
+//    }
 
-        Employee employee = repository.findById(1).get();
+//    @Test
+//    @Order(6)
+//    @Rollback(value = false)
+//    public void getAllEmployeeByNameTest() {
+//        Employee employee = new Employee();
+//        employee.setName("Mark");
+//        repository.save(employee);
+//        Assertions.assertThat(repository.getAllByName("Mark").size()).isEqualTo(1);
+//    }
 
-        repository.delete(employee);
-
-        //repository.deleteById(1L);
-
-        Employee employee1 = null;
-
-        Optional<Employee> optionalAuthor = Optional.ofNullable(repository.findByName("Martin"));
-
-        if (optionalAuthor.isPresent()) {
-            employee1 = optionalAuthor.get();
-        }
-
-        Assertions.assertThat(employee1).isNull();
-    }
-
-    @Test
-    @Order(6)
-    @Rollback(value = false)
-    public void getAllEmployeeByNameTest() {
-        Employee employee = new Employee();
-        employee.setName("Mark");
-        repository.save(employee);
-        Assertions.assertThat(repository.getAllByName("Mark").size()).isEqualTo(1);
-    }
-
-    @Test
-    @Order(7)
-    @Rollback(value = false)
-    public void getAllEmployeeByIsFullTest() {
-        Employee employee = new Employee();
-        employee.setIsFull(true);
-        repository.save(employee);
-        Assertions.assertThat(repository.getAllByIsFullTrue().size()).isEqualTo(1);
-    }
+//    @Test
+//    @Order(7)
+//    @Rollback(value = false)
+//    public void getAllEmployeeByIsFullTest() {
+//        Employee employee = new Employee();
+//        employee.setIsFull(true);
+//        repository.save(employee);
+//        Assertions.assertThat(repository.getAllByIsFullTrue().size()).isEqualTo(1);
+//    }
 
 
 

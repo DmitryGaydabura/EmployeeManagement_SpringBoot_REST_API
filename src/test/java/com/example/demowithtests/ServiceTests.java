@@ -69,47 +69,47 @@ public class ServiceTests {
         service.getById(employee.getId());
     }
 
-    @Test
-    public void when_name_given_should_return_all_employees_by_name() {
+//    @Test
+//    public void when_name_given_should_return_all_employees_by_name() {
+//
+//        Employee created = new Employee();
+//        created.setName("Mark");
+//
+//        List<Employee> employee = new ArrayList<>();
+//        employee.add(created);
+//
+//        when(repository.getAllByName("Mark")).thenReturn(employee);
+//
+//        List<Employee> expected = service.getListAllByName("Mark");
+//
+//        assertThat(expected.size()).isGreaterThan(0);
+//        assertEquals("Mark", expected.get(0).getName());
+//        assertThat(expected).isSameAs(employee);
+//
+//        verify(repository).getAllByName("Mark");
+//
+//    }
 
-        Employee created = new Employee();
-        created.setName("Mark");
-
-        List<Employee> employee = new ArrayList<>();
-        employee.add(created);
-
-        when(repository.getAllByName("Mark")).thenReturn(employee);
-
-        List<Employee> expected = service.getListAllByName("Mark");
-
-        assertThat(expected.size()).isGreaterThan(0);
-        assertEquals("Mark", expected.get(0).getName());
-        assertThat(expected).isSameAs(employee);
-
-        verify(repository).getAllByName("Mark");
-
-    }
-
-    @Test
-    public void when_called_should_returnAllEmployees_ByIsFull() {
-
-        Employee created = new Employee();
-        created.setIsFull(true);
-
-        List<Employee> employee = new ArrayList<>();
-        employee.add(created);
-
-        when(repository.getAllByIsFullTrue()).thenReturn(employee);
-
-        List<Employee> expected = service.getAllByIsFullTrue();
-
-        assertThat(expected.size()).isGreaterThan(0);
-        assertEquals(true, expected.get(0).getIsFull());
-        assertThat(expected).isSameAs(employee);
-
-        verify(repository).getAllByIsFullTrue();
-
-    }
+//    @Test
+//    public void when_called_should_returnAllEmployees_ByIsFull() {
+//
+//        Employee created = new Employee();
+//        created.setIsFull(true);
+//
+//        List<Employee> employee = new ArrayList<>();
+//        employee.add(created);
+//
+//        when(repository.getAllByIsFullTrue()).thenReturn(employee);
+//
+//        List<Employee> expected = service.getAllByIsFullTrue();
+//
+//        assertThat(expected.size()).isGreaterThan(0);
+//        assertEquals(true, expected.get(0).getIsFull());
+//        assertThat(expected).isSameAs(employee);
+//
+//        verify(repository).getAllByIsFullTrue();
+//
+//    }
 
 //    @Test
 //    public void when_idGiven_should_returnEmployeeWithPassword() {

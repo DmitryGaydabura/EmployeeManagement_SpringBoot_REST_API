@@ -4,6 +4,8 @@ import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.dto.EmployeeCreateDto;
 import com.example.demowithtests.dto.EmployeeReadDto;
 import com.example.demowithtests.dto.EmployeeUpdateDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -17,12 +19,8 @@ public interface Service {
      */
     EmployeeCreateDto create(Employee employee);
 
-    /**
-     * Get all employees.
-     *
-     * @return A list of all the employees in the database.
-     */
-    List<Employee> getAllEmployees();
+
+    Page<Employee> getAllWithPagination(Pageable pageable);
 
     /**
      * Get an employee by id.
@@ -59,14 +57,14 @@ public interface Service {
      * @param name The name of the method.
      * @return A list of all employees with the given name.
      */
-    List<Employee> getListAllByName(String name);
+    Page<Employee> findByName(String name, int page, int size, List<String> sortList, String sortOrder);
 
     /**
      * Get all employees where isFull is true.
      *
      * @return A list of all employees who are full time.
      */
-    List<Employee> getAllByIsFullTrue();
+    Page<Employee> getAllByIsFullTrue(Pageable pageable);
 
     /**
      * Generate a password for the employee with the given id.
