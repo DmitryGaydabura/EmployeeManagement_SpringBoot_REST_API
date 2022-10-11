@@ -5,12 +5,14 @@ import com.example.demowithtests.dto.EmployeeCreateDto;
 import com.example.demowithtests.dto.EmployeeReadDto;
 import com.example.demowithtests.dto.EmployeeUpdateDto;
 import com.example.demowithtests.service.Service;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -85,4 +87,26 @@ public class Controller implements ControllerInterface {
     public Employee updatePassword(@RequestBody Employee employee) {
         return service.updatePasswordById(employee);
     }
+
+    @Override
+    public List<Employee> getAllByNameStream(@RequestParam(value = "name") String name){
+        return service.getAllByNameStream(name);
+    }
+
+    @Override
+    public List<Employee> getAllByIsFullStream(){
+        return service.getAllByIsFullStream();
+    }
+
+    @Override
+    public List<Employee> getAllEmployeesWithPassword(@RequestParam(value = "password") String password){
+        return service.getEmployeesWithPassword(password);
+    }
+
+    @Override
+    public List<Employee> getAllEmployeesWithEmail(@RequestParam(value = "email") String email){
+        return service.getEmployeesWithEmail(email);
+    }
+
+
 }

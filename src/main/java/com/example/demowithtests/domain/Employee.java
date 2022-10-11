@@ -25,4 +25,16 @@ public class Employee {
     private Boolean isUpdated;
     private String password;
 
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", country='" + country + '\'' +
+                ", email='" + email + '\'' +
+                ", isFull=" + isFull +
+                ", isUpdated=" + isUpdated +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

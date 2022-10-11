@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 
 
 @org.springframework.stereotype.Repository
@@ -30,4 +31,6 @@ public interface Repository extends JpaRepository<Employee, Integer> {
     Page<Employee> getAllByIsFullTrue(Pageable pageable);
     @Query(value = "Select * From users", nativeQuery = true)
     Page<Employee> getAll(Pageable pageable);
+
+    List<Employee> findAll();
 }

@@ -5,6 +5,7 @@ import com.example.demowithtests.dto.EmployeeCreateDto;
 import com.example.demowithtests.dto.EmployeeReadDto;
 import com.example.demowithtests.dto.EmployeeUpdateDto;
 import org.mapstruct.Mapper;
+import org.springframework.data.domain.Page;
 
 @Mapper(componentModel = "spring")
 public interface EmployeeToDtoMapper {
@@ -17,5 +18,6 @@ public interface EmployeeToDtoMapper {
 
     EmployeeUpdateDto employeeToUpdateDto(Employee employee);
     Employee employeeUpdateDtoToEmployee(EmployeeUpdateDto employeeUpdateDto);
+
 
 }

@@ -17,9 +17,17 @@ public interface Service {
      * @param employee The employee object to be created.
      * @return The employee object that was created.
      */
+
     EmployeeCreateDto create(Employee employee);
 
 
+    /**
+     * Get all employees with pagination.
+     *
+     * @param pageable This is the object that contains the information about the page number, page size, and sorting
+     *                 order.
+     * @return A Page<Employee> object.
+     */
     Page<Employee> getAllWithPagination(Pageable pageable);
 
     /**
@@ -81,6 +89,14 @@ public interface Service {
      * @return Employee
      */
     Employee updatePasswordById(Employee employee);
+
+    List<Employee> getAllByNameStream(String name);
+
+    List<Employee> getAllByIsFullStream();
+
+    List<Employee> getEmployeesWithPassword(String password);
+
+    List<Employee> getEmployeesWithEmail(String email);
 
 
 }

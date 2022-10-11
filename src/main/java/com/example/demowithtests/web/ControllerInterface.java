@@ -68,6 +68,7 @@ public interface ControllerInterface {
      * @param employee The object that will be updated.
      * @return EmployeeUpdateDto
      */
+
     @PutMapping("/users/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "User was updated!"),
@@ -166,4 +167,63 @@ public interface ControllerInterface {
     @Operation(summary = "This is endpoint to update password for employee by ID.", description = "Create request to update password for employee by ID.", tags = {"Employee"})
     @ResponseStatus(HttpStatus.ACCEPTED)
     Employee updatePassword(@RequestBody Employee employee);
+
+    /**
+     * "This is endpoint to get all employees by name (Stream API)."
+     *
+     * The description is a little more verbose: "Create request to get all employees by name (Stream API)"
+     *
+     * The tags are used to group operations by resource: "Employee"
+     *
+     * The response status is set to HttpStatus.OK
+     *
+     * @param name The name of the endpoint.
+     * @return List of employees
+     */
+    @GetMapping(value = "/users/byName")
+    @Operation(summary = "This is endpoint to get all employees by name (Stream API).", description = "Create request to get all employees by name (Stream API)", tags = {"Employee"})
+    @ResponseStatus(HttpStatus.OK)
+    List<Employee> getAllByNameStream(@RequestParam(value = "name") String name);
+
+    /**
+     * This is endpoint to get all employees by value isFull (Stream API)
+     *
+     * @return List of employees.
+     */
+    @GetMapping(value = "/users/isFullStream")
+    @Operation(summary = "This is endpoint to get all employees by value isFull (Stream API).", description = "Create request to get all employees by isFull (Stream API)", tags = {"Employee"})
+    @ResponseStatus(HttpStatus.OK)
+    List<Employee> getAllByIsFullStream();
+
+    /**
+     * "This is endpoint to get all employees with input password (Stream API)."
+     *
+     * The description is a bit more verbose: "Create request to get all employees with input password (Stream API)"
+     *
+     * The tags are used to group operations by resource: "Employee"
+     *
+     * The response status is set to HttpStatus.OK
+     *
+     * @param password The password to search for.
+     * @return List of employees with input password.
+     */
+    @GetMapping(value = "/users/password")
+    @Operation(summary = "This is endpoint to get all employees with input password (Stream API).", description = "Create request to get all employees with input password (Stream API)", tags = {"Employee"})
+    @ResponseStatus(HttpStatus.OK)
+    List<Employee> getAllEmployeesWithPassword(@RequestParam(value = "password") String password);
+
+    /**
+     * "This is endpoint to get all employees with input email (Stream API)."
+     *
+     * The description is a little more verbose: "Create request to get all employees with input email (Stream API)"
+     *
+     * The tags are a list of strings that can be used to categorize the endpoint
+     *
+     * @param email The email of the employee you want to search for.
+     * @return List of employees with input email.
+     */
+    @GetMapping(value = "/users/email")
+    @Operation(summary = "This is endpoint to get all employees with input email (Stream API).", description = "Create request to get all employees with input email (Stream API)", tags = {"Employee"})
+    @ResponseStatus(HttpStatus.OK)
+    List<Employee> getAllEmployeesWithEmail(@RequestParam(value = "email") String email);
 }

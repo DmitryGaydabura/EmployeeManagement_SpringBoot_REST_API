@@ -9,7 +9,6 @@ import com.example.demowithtests.util.config.mapstruct.EmployeeToDtoMapper;
 import com.example.demowithtests.util.exceptions.ResourceWasDeletedException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +17,8 @@ import org.springframework.data.domain.Sort;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Slf4j
@@ -125,6 +126,37 @@ public class ServiceBean implements Service {
             sorts.add(new Sort.Order(direction, sort));
         }
         return sorts;
+    }
+
+    @Override
+    public List<Employee> getAllByNameStream(String name) {
+        List<Employee> employeeList = employeeRepository.findAll();
+        return employeeList.stream()
+                .filter((e) -> name.equals(e.getName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Employee> getAllByIsFullStream() {
+        List<Employee> employeeList = employeeRepository.findAll();
+        return employeeList.stream()
+                .filter(Employee::getIsFull)
+                .collect(Collectors.toList());
+    }
+    @Override
+    public List<Employee> getEmployeesWithPassword(String password){
+        List<Employee> employeeList = employeeRepository.findAll();
+        return employeeList.stream()
+                .filter((e) -> password.equals(e.getPassword()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Employee> getEmployeesWithEmail(String email){
+        List<Employee> employeeList = employeeRepository.findAll();
+        return employeeList.stream()
+                .filter((e) -> email.equals(e.getEmail()))
+                .collect(Collectors.toList());
     }
 
 
