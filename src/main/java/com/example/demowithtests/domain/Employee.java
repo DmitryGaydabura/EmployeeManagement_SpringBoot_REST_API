@@ -3,6 +3,8 @@ package com.example.demowithtests.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -24,6 +26,14 @@ public class Employee {
     private Boolean isFull;
     private Boolean isUpdated;
     private String password;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id")
+    private Passport passport;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id")
+    private Set<Task> tasks = new HashSet<>();
 
     @Override
     public String toString() {
