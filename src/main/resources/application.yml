@@ -6,6 +6,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/employee
     username: postgres
     password: dimitrius1011
+
+  flyway:
+      #    locations: filesystem:.\src\main\resources\db\migration
+    enabled: true
+      #    clean-disabled: true
+    baseline-on-migrate: true
   # JPA properties
   jpa:
     hibernate:
